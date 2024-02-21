@@ -38,13 +38,18 @@ def get_user_info(request):
 
 
 class ContactList(generics.ListCreateAPIView):
-    queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     permission_classes = [IsRegisteredUser]
 
+    def get_queryset(self):
+        user_id = self.request.query_params.get('owner')
+        if user_id.isdigit():
+            user_id = int(user_id)
+        return Contact.objects.filter(owner=user_id)
+
     def perform_create(self, serializer):
             # Using the user ID obtained from the get_user_info endpoint
-            user_id = self.request.data.get('id')
+            user_id = self.request.data.get('owner')
             serializer.save(owner=user_id)
 
 

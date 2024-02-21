@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const AddContact = ({ onAdd, token }) => {
   const [newContact, setNewContact] = useState({
@@ -8,8 +9,10 @@ const AddContact = ({ onAdd, token }) => {
     phone_number: '',
     address: '',
   });
+  const navigate = useNavigate();
 
   const [userId, setUserId] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -37,7 +40,7 @@ const AddContact = ({ onAdd, token }) => {
 
   const handleAdd = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await api.post('contacts/', {
         ...newContact,
@@ -47,9 +50,12 @@ const AddContact = ({ onAdd, token }) => {
           Authorization: `Token ${token}`,
         },
       });
-  
+
       onAdd(response.data);
-  
+
+      // Show pop-up alert
+      setShowAlert(true);
+
       // Reset form fields
       setNewContact({
         name: '',
@@ -57,12 +63,16 @@ const AddContact = ({ onAdd, token }) => {
         phone_number: '',
         address: '',
       });
-      window.location.reload();
+
+      // Redirect to /contacts after the alert is dismissed
+      setTimeout(() => {
+        setShowAlert(false);
+        navigate('/contacts');
+      }, 3000);
     } catch (error) {
       console.error('Error adding contact:', error);
     }
   };
-  
   
   return (
     <div className="container mx-auto my-8 bg-gray-400 p-20">
@@ -120,6 +130,12 @@ const AddContact = ({ onAdd, token }) => {
           Add Contact
         </button>
       </form>
+
+      {showAlert && (
+        <div className="fixed bottom-0 right-0 p-4 bg-green-500 text-white">
+          Contact added successfully!
+        </div>
+      )}
     </div>
   );
 };

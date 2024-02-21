@@ -9,7 +9,7 @@ class Contact(models.Model):
     address = models.TextField(blank=True, null=True)
     
    
-    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    owner = models.IntegerField(null=True)
 
     def __str__(self):
         return f"{self.id}: {self.name}"

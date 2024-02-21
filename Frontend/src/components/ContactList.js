@@ -2,10 +2,31 @@ import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import AddContact from './AddContact';
 import EditContact from './EditContact';
+import { Link } from 'react-router-dom';
 
 const ContactList = ({ token }) => {
   const [contacts, setContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await api.get('get_user_info/', {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+
+        // Extract user ID from the response
+        setUserId(response.data.id);
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
+    };
+
+    fetchUserInfo();
+  }, [token]);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -14,6 +35,9 @@ const ContactList = ({ token }) => {
           headers: {
             Authorization: `Token ${token}`,
           },
+          params: {
+            owner: userId,
+          },
         });
         setContacts(response.data);
       } catch (error) {
@@ -21,13 +45,19 @@ const ContactList = ({ token }) => {
       }
     };
 
-    fetchContacts();
-  }, [token]);
+    if (userId) {
+      fetchContacts();
+    }
+  }, [token, userId]);
 
   const handleEditContact = (contact) => {
     setSelectedContact(contact);
   };
 
+  const handleAddContact = (newContact) => {
+    setContacts((prevContacts) => [...prevContacts, newContact]);
+  };
+  
   const handleDeleteContact = async (contactId) => {
     try {
       await api.delete(`contacts/${contactId}/`, {
@@ -51,13 +81,13 @@ const ContactList = ({ token }) => {
           <li key={contact.id} className="mb-2">
             <div className="bg-gray-200 p-4 rounded-md">
               <strong>{contact.name}</strong> - {contact.email} - {contact.phone_number} - {contact.address}
-              <button onClick={() => handleEditContact(contact)} className="ml-2 text-blue-500">
+              <button onClick={() => handleEditContact(contact)} className="ml-2  py-2 px-4 rounded-md bg-blue-400">
                 Edit
               </button>
               <button onClick={() => {
                 handleDeleteContact(contact.id);
                 window.location.reload();
-              }} className="ml-2 text-red-500">
+              }} className="ml-2 bg-red-400 py-2 px-4 rounded-md">
                 Delete
               </button>
             </div>
@@ -65,10 +95,16 @@ const ContactList = ({ token }) => {
         ))}
       </ul>
       {selectedContact && <EditContact contact={selectedContact} token={token} />}
-      <AddContact token={token} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md" />
+      <div>
+      <AddContact token={token} onAdd={handleAddContact} />
+      </div>
+      <div className='bottom-0 mt-4'>
+        <button className='bg-red-600 rounded-md px-3 py-2'>
+          <Link to='/'>LogOut</Link>
+        </button>
+      </div>
     </div>
   );
 };
 
 export default ContactList;
-
