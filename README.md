@@ -1,73 +1,79 @@
 # ContactManagement
 
+# Backend
+### install `requirements.txt` file in virtual environment. cd `contact_manager` and run `python manage.py runserver`.
+[http://localhost:8000](http://localhost:8000) to view it in your browser as frontend use this backend port for API.
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
+# Frontend
+### `npm install`
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+[http://localhost:3000](http://localhost:3000) to view it in your browser as this is the CORS_ALLOWED_ORIGINS.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Contact Management UI Documentation
 
-### `npm test`
+This documentation outlines the features and functionality of a simple Contact Management UI.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `npm run build`
+### 1. List all contacts
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The ContactList component displays a list of contacts. It fetches contact data from the server using an API endpoint and renders the contacts on the UI.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 2. Add a new contact
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The AddContact component allows users to add new contacts. It collects contact information such as name, email, phone number, and address. The contact is then sent to the server via an API request for storage.
 
-### `npm run eject`
+### 3. Edit an existing contact
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The ContactList component provides functionality to edit existing contacts. Users can click on the "Edit" button next to a contact, and the EditContact component is triggered, allowing modifications to the contact details.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 4. Delete a contact
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Contacts can be deleted using the ContactList component. Clicking the "Delete" button next to a contact triggers an API request to remove the contact from the server. The contact list is updated accordingly.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 5. User Registration and Authentication
 
-## Learn More
+User registration functionality is implemented, allowing new users to sign up. Authentication is handled using tokens, and users need to log in with valid credentials to access and manage their contacts.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Components
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 1. ContactList
 
-### Code Splitting
+- Lists and displays all contacts.
+- Allows editing and deleting contacts.
+- Fetches contact data from the server.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 2. AddContact
 
-### Analyzing the Bundle Size
+- Provides a form to add new contacts.
+- Collects contact details and sends them to the server for storage.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 3. EditContact
 
-### Making a Progressive Web App
+- Allows editing existing contact details.
+- Triggered by the ContactList component.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 4. User Registration and Login
 
-### Advanced Configuration
+- UserRegistrationView: Handles user registration.
+- Login: Provides a login form for users.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## API Endpoints
 
-### Deployment
+- `/contacts/`: Manages contacts (GET, POST).
+- `/contacts/<contact_id>/`: Manages individual contacts (GET, PUT, DELETE).
+- `/user/register/`: User registration endpoint (POST).
+- `/login/`: User login endpoint (POST).
+- `/get_user_info/`: Fetches user information (GET).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Usage
 
-### `npm run build` fails to minify
+1. Clone the repository.
+2. Install dependencies (`npm install` or `yarn install`).
+3. Start the development server (`npm start` or `yarn start`).
+4. Access the UI in your web browser.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+For any issues or questions, contact kazisohrab73@gmail.com.
+
