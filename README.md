@@ -2,13 +2,13 @@
 
 # Backend
 ### install `requirements.txt` file in virtual environment. cd `contact_manager` and run `python manage.py runserver`.
-[http://localhost:8000](http://localhost:8000) to view it in your browser as frontend use this backend port for API.
+[http://localhost:8000](http://localhost:8000) to view it in your browser because frontend use this backend port for API.
 
 # Frontend
 ### `npm install`
 ### `npm start`
 
-[http://localhost:3000](http://localhost:3000) to view it in your browser as this is the CORS_ALLOWED_ORIGINS.
+[http://localhost:3000](http://localhost:3000) to view it in your browser because this is set as CORS_ALLOWED_ORIGINS in backend.
 
 # Contact Management UI Documentation
 
