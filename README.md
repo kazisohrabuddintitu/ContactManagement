@@ -7,34 +7,35 @@
    git clone https://github.com/kazisohrabuddintitu/ContactManagement
    cd Backend
 2. **Create and activate a virtual environment:**
-
+    ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
 
 3. **Install backend dependencies:**
-
+    ```bash
     pip install -r requirements.txt
 
 4. **Direct to project folder**
-
+    ```bash
     cd contact_manager
 
 5. **Run the Django development server:**
-
+    ```bash
     python manage.py runserver
     The API will be accessible at http://localhost:8000/api/.
 
 
 # Frontend Setup
 1. **Navigate to the frontend directory:**
+    ```bash
     cd Frontend
 
 2. **Install frontend dependencies:**
-
+    ```bash
     npm install
 
 3. **Start the development server:**
-
+    ```bash
     npm start  # or use `yarn start`
     The UI will be accessible at http://localhost:3000, this is set as CORS_ALLOWED_ORIGINS in backend.
 
