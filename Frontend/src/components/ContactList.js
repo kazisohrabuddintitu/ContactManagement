@@ -54,7 +54,10 @@ const ContactList = ({ token }) => {
               <button onClick={() => handleEditContact(contact)} className="ml-2 text-blue-500">
                 Edit
               </button>
-              <button onClick={() => handleDeleteContact(contact.id)} className="ml-2 text-red-500">
+              <button onClick={() => {
+                handleDeleteContact(contact.id);
+                window.location.reload();
+              }} className="ml-2 text-red-500">
                 Delete
               </button>
             </div>

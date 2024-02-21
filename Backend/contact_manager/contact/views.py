@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from .serializers import ContactSerializer, UserRegistrationSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import BasePermission
+from rest_framework_simplejwt.tokens import Token
+from rest_framework.decorators import api_view, permission_classes
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -24,10 +26,26 @@ class IsRegisteredUser(BasePermission):
         return request.user.is_authenticated and request.user.has_usable_password()
     
 
+@api_view(['GET'])
+@permission_classes([IsRegisteredUser])
+def get_user_info(request):
+    user = request.user
+    user_data = {
+        'id': user.id,
+        'username': user.username,
+    }
+    return Response(user_data)
+
+
 class ContactList(generics.ListCreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     permission_classes = [IsRegisteredUser]
+
+    def perform_create(self, serializer):
+            # Using the user ID obtained from the get_user_info endpoint
+            user_id = self.request.data.get('id')
+            serializer.save(owner=user_id)
 
 
 class ContactDetail(generics.RetrieveUpdateDestroyAPIView):

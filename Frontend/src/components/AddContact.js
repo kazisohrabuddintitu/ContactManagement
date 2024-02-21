@@ -1,42 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 
 const AddContact = ({ onAdd, token }) => {
-    const [newContact, setNewContact] = useState({
-      name: '',
-      email: '',
-      phone_number: '',
-      address: '',
-    });
-  
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setNewContact({ ...newContact, [name]: value });
-    };
-  
-    const handleAdd = async () => {
+  const [newContact, setNewContact] = useState({
+    name: '',
+    email: '',
+    phone_number: '',
+    address: '',
+  });
+
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
       try {
-        const response = await api.post('contacts/', newContact, {
+        const response = await api.get('get_user_info/', {
           headers: {
             Authorization: `Token ${token}`,
           },
         });
-        onAdd(response.data);
-        setNewContact({
-          name: '',
-          email: '',
-          phone_number: '',
-          address: '',
-        });
+
+        // Extract user ID from the response
+        setUserId(response.data.id);
       } catch (error) {
-        console.error('Error adding contact:', error);
+        console.error('Error fetching user info:', error);
       }
     };
 
+    fetchUserInfo();
+  }, [token]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewContact({ ...newContact, [name]: value });
+  };
+
+  const handleAdd = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await api.post('contacts/', {
+        ...newContact,
+        owner: userId,
+      }, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+  
+      onAdd(response.data);
+  
+      // Reset form fields
+      setNewContact({
+        name: '',
+        email: '',
+        phone_number: '',
+        address: '',
+      });
+      window.location.reload();
+    } catch (error) {
+      console.error('Error adding contact:', error);
+    }
+  };
+  
+  
   return (
-    <div className="container mx-auto my-8">
-      <h2 className="text-2xl font-bold mb-4">Add Contact</h2>
-      <form>
+    <div className="container mx-auto my-8 bg-gray-400 p-20">
+      <h2 className="text-2xl font-bold mb-4 text-center">Add Contact</h2>
+      <form onSubmit={handleAdd} className="max-w-md mx-auto">
         <div className="mb-4">
           <label className="block text-gray-700">Name:</label>
           <input
@@ -82,9 +113,9 @@ const AddContact = ({ onAdd, token }) => {
         </div>
 
         <button
-          type="button"
-          onClick={handleAdd}
+          type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded-md"
+          onClick={(e) => handleAdd(e)}
         >
           Add Contact
         </button>
