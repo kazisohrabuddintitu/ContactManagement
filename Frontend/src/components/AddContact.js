@@ -75,7 +75,7 @@ const AddContact = ({ onAdd, token }) => {
   };
   
   return (
-    <div className="container mx-auto my-8 bg-gray-400 p-20">
+    <div className="container mx-auto my-8 bg-gray-200 p-20 rounded-md">
       <h2 className="text-2xl font-bold mb-4 text-center">Add Contact</h2>
       <form onSubmit={handleAdd} className="max-w-md mx-auto">
         <div className="mb-4">

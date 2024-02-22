@@ -19,7 +19,16 @@
     ```bash
     cd contact_manager
 
-5. **Run the Django development server:**
+5. **Apply Migrations:**
+    ```bash
+    python manage.py makemigrations
+    python manage.py migrate
+
+6. **Create a Superuser (Optional):**
+    ```bash
+    python manage.py createsuperuser
+
+7. **Run the Django development server:**
     ```bash
     python manage.py runserver
     The API will be accessible at http://localhost:8000/api/.
@@ -96,13 +105,6 @@ User registration functionality is implemented, allowing new users to sign up. A
 - `/user/register/`: User registration endpoint (POST).
 - `/login/`: User login endpoint (POST).
 - `/get_user_info/`: Fetches user information (GET).
-
-## Usage
-
-1. Clone the repository.
-2. Install dependencies (`npm install` or `yarn install`).
-3. Start the development server (`npm start` or `yarn start`).
-4. Access the UI in your web browser.
 
 
 For any issues or questions, contact kazisohrab73@gmail.com.
